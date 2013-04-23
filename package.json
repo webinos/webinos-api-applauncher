@@ -1,4 +1,4 @@
-{ "name": "applauncher"
+{ "name": "webinos-api-applauncher"
 , "publishConfig": { "tag": "alpha" }
 , "description": "AppLauncher API"
 , "keywords": [ "webinos", "applauncher", "API"]
@@ -7,7 +7,7 @@
 , "author": "Andre Paul <andre.paul@fokus.fraunhofer.de>"
 , "repository":
   { "type": "git"
-  , "url": "http://dev.webinos.org/git/wp4.git"
+  , "url": "git://github.com/webinos/webinos-api-applauncher.git"
   }
 , "bugs":
   { "email": "webinos-wp4-ml@fokus.fraunhofer.de"
