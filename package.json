@@ -4,7 +4,7 @@
 , "keywords": [ "webinos", "applauncher", "API"]
 , "version": "0.0.1"
 , "homepage": "http://webinos.org/"
-, "author": "Andre Paul <andre.paul@fokus.fraunhofer.de>"
+, "author": "Andre Paul <andre.paul@fokus.fraunhofer.de>, Toby Ealden <toby.ealden@gmail.com>"
 , "repository":
   { "type": "git"
   , "url": "git://github.com/webinos/webinos-api-applauncher.git"
@@ -18,6 +18,8 @@
 , "main": "./lib/applauncher.js"
 , "dependencies":
   {
+    "open": "0.0.x",
+    "node-uuid": "1.3.x"
   }
 , "bundleDependencies":
   [
