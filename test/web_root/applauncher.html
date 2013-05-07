@@ -7,81 +7,137 @@
     <script src="../js/jquery-1.8.2.min.js"></script>
     <script src="../js/jquery.mobile-1.3.0.min.js"></script>
     <script type="text/javascript" src="../webinos.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            function logMessage(msg) {
-                if (msg) {
-                    $('#message').append('<li>' + msg + '</li>');
+	<script type="text/javascript">
+
+	function logObj(obj, name){
+		for (var myKey in obj){
+			console.log(name + "["+myKey +"] = "+obj[myKey]);
+			if (typeof obj[myKey] == 'object') logObj(obj[myKey], name + "." + myKey);
+		}
+	}
+	
+	
+            $(document).ready(function() {
+
+                function printInfo(data) {
+                    $('#message').append('<li>'+data.payload.message+'</li>');
                 }
-            }
+                webinos.session.addListener('info', printInfo);
+                
+                	var launcherAPIS = [];
+            	    var appLauncherToUse;
+                    $('#findService').bind('click', function() {
+                	    webinos.discovery.findServices(new ServiceType('http://webinos.org/api/applauncher'), 
+						{onFound: function (service) {
+							
+							 $("<option value='" + service.serviceAddress + "' >" +service.serviceAddress + "</option>").appendTo("#pzh_pzp_list");
+								launcherAPIS[service.serviceAddress] = service;
+							
+                	    	$('#messages').append('<li> AppLauncher API found: ' + service.api + ' @ ' + service.serviceAddress + '</li>');
 
-            function printInfo(data) {
-                logMessage(data.payload.message);
-            }
-
-            webinos.session.addListener('info', printInfo);
-
-            var test = {};
-            var recentService;
-
-            $('#findService').bind('click', function () {
-                test = {};
-                recentService = null;
-                $('#get42Services').empty();
-                webinos.discovery.findServices(new ServiceType('http://webinos.org/api/applauncher'),
-                        {onFound:function (service) {
-                            test[service.serviceAddress] = service;
-                            console.log(service);
-                            $('#get42Services').append($('<option>' + service.serviceAddress + '</option>'));
+                	    	logObj(service, "Service");
+                	    }});
+                    });
+                    
+                    $('#cls').bind('click', function() {
+                    	document.getElementById("messages").innerHTML = "";
+                    }); 
+                    
+                    $('#bind').bind('click', function() {
+                    	
+                    	appLauncherToUse = launcherAPIS[$('#pzh_pzp_list option:selected').val()];
+                    	
+                    	appLauncherToUse.bind({onBind:function(){
+                        	$('#messages').append('<li> AppLauncher API ' + appLauncherToUse.api + ' bound.</li>');
                         }});
+                    }); 
+                    
+                    
+                    $('#launchApp').bind('click', function() {
+                    	
+                    	
+                    	var appID = $("#textOut").val();
+                    	var startParams = [];
+                    	startParams.push($("#textOutParam").val());
+                    	
+                    	console.log(startParams);
+                    	
+                    	appLauncherToUse.launchApplication(
+                    			function (ok){
+                    				if (ok) {
+                            $('#messages').append('<li> App launched </li>');
+                            } else {
+                            $('#messages').append('<li> App NOT launched </li>');
+                            }
+                    			},
+                    			function (){
+                    				$('#messages').append('<li> Error while launching App</li>');                    		
+                    			},
+                    			appID,
+                    			startParams
+	                    );
+                    	
+                    });
+
+                     
+                     $('#isInstalled').bind('click', function() {
+                    	var appID = $("#textOut").val();
+                    	var startParams = [];
+                    	startParams.push($("#textOutParam").val());
+                    	
+                    	console.log(startParams);
+
+                      appLauncherToUse.appInstalled(
+                    			function (appFound){
+                          alert("heelo!");
+                              if (appFound) {
+                    				$('#messages').append('<li> App is installed </li>');
+                            } else {
+                    				$('#messages').append('<li> App NOT installed </li>');
+                            }
+                    			},
+                    			function (){
+                          alert("heelo!");
+                    				$('#messages').append('<li> Error while checking app installation</li>');                    		
+                    			},
+                    			appID
+                       );
+                     });
+
+
+
+                    
             });
-            $('#bind').bind('click', function () {
-                recentService = test[$('#get42Services option:selected').val()];
-                recentService.bindService({onBind:function (service) {
-                    logMessage('Applauncher API ' + service.api + ' bound.');
-                }});
-            });
-            $('#get42').bind('click', function () {
-                recentService.get42('foo', function (result) {
-                            alert(result);
-                        },
-                        function (error) {
-                            alert(error.code + " " + error.message);
-                        });
-            });
-        });
-    </script>
+        </script>
 </head>
 <body>
-<table>
-    <tr>
-        <td>Use "Find Services" to search for available applauncher-Services.<br/>
-            Select one, then bind and use. Select another and bind again and use.
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <button id="findService" class="button">Find Services</button>
-            <br/>
-            <select id="get42Services"></select>
-        </td>
-    </tr>
-    <tr>
-        <td><p>
-            <i> The selected address means the Service at that address
-                will be used.</i>
-        </p></td>
-    </tr>
-    <tr>
-        <td>
-            <button id="bind" class="button">Bind</button>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <button id="get42" class="button">Get 42</button>
-        </td>
-    </tr>
-</table>
+          <div >
+            <div >
+              <p>
+                <div> PZH PZP LIST : <select id="pzh_pzp_list"> <option> </option> </select>  <span>Click find to fill this</span><br> </div>
+                <button id="cls">Clear</button><button id="findService">Find AppLauncher Service</button>
+                <button id="bind">Bind</button>
+                  <button id="launchApp">Launch Application</button>
+                  <button id="isInstalled">App Installed?</button>
+              </p>
+              <p><div>
+                1. Press "Find AppLauncher Service" Button
+              to get the AppLauncher Service<br>2. Press "Bind" button to bind the found service.<br>3. Add AppID to launch and params (this currently just passes the string and tries to launch a native process)<br></p>
+              </div><p>
+                <div>
+                AppID
+                <textarea id="textOut" rows="1" cols="60">http://www.webinos.org/</textarea>
+                </div>
+                <div>
+                Param
+                <textarea id="textOutParam" rows="1" cols="60" placeholder="not supported"></textarea>
+                </div>
+              </p>
+            </div>
+            <div >
+              <ul id="messages">
+              </ul>
+            </div>
+          </div>
 </body>
 </html>
