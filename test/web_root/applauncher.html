@@ -89,7 +89,6 @@
 
                       appLauncherToUse.appInstalled(
                     			function (appFound){
-                          alert("heelo!");
                               if (appFound) {
                     				$('#messages').append('<li> App is installed </li>');
                             } else {
@@ -97,7 +96,6 @@
                             }
                     			},
                     			function (){
-                          alert("heelo!");
                     				$('#messages').append('<li> Error while checking app installation</li>');                    		
                     			},
                     			appID
