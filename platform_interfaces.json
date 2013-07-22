@@ -1,0 +1,6 @@
+{
+  "android": {
+    "AppLauncherManagerImpl": "org.webinos.android.impl.AppLauncherManagerImpl"
+  }
+}
+
