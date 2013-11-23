@@ -68,7 +68,7 @@ Launches an application.
 
 ### appInstalled (successCB, errorCB, appURI)
 
-Reports if an application is is installed.
+Reports if an application is installed.
 
 
 ## Links ##
