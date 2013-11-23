@@ -6,7 +6,7 @@ App launcher API provides methods to determine if a webinos application is insta
 
 ## Installation ##
 
-To install the app launcher API you will need to install the node module inside the webinos pzp.
+To install the app launcher API you will need to npm the node module inside the webinos pzp.
 
 For end users, you can simply open a command prompt in the root of your webinos-pzp and do: 
 
