@@ -74,4 +74,5 @@ Reports if an application is installed.
 ## Links ##
 
 - [Specifications](http://dev.webinos.org/specifications/api/launcher.html)
+- [Examples](https://github.com/webinos/webinos-api-applauncher/wiki/Examples)
 
