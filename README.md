@@ -50,7 +50,7 @@ Alternatively you can use the webinos dashboard to allow the user choose the app
          }
      }).onAction(function successFn(data){
 		  if (data.result.length > 0){
-			// User selected some contact APIs
+			// User selected some services
 		  }
 	 });
 
