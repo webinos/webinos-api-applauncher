@@ -46,7 +46,7 @@ Alternatively you can use the webinos dashboard to allow the user choose the app
          	service:[
             	'http://webinos.org/api/applauncher'
          	],
-            select:"devices"
+            select:"services"
          }
      }).onAction(function successFn(data){
 		  if (data.result.length > 0){
