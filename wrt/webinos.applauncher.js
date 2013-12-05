@@ -33,7 +33,7 @@
 	// The following allows the 'instanceof' to work properly
 	AppLauncherModule.prototype.constructor = AppLauncherModule;
 	// Register to the service discovery
-	_webinos.registerServiceConstructor("http://webinos.org/api/test", AppLauncherModule);
+	_webinos.registerServiceConstructor("http://webinos.org/api/applauncher", AppLauncherModule);
 
 	/**
 	 * To bind the service.
